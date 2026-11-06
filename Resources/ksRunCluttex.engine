@@ -1,0 +1,14 @@
+#!/bin/zsh
+export PATH=/Library/TeX/texbin:/usr/texbin:/usr/local/bin:${PATH}
+
+# kpsewhich를 통해 lua 스크립트의 경로를 탐색
+LUA_SCRIPT=$(kpsewhich --format=lua ksruncltex.lua)
+
+if [[ -z "$LUA_SCRIPT" ]]; then
+    echo "[Error] ksruncltex.lua를 찾을 수 없습니다."
+    echo "파일이 올바른 위치에 있는지, mktexlsr를 실행했는지 확인하세요."
+    exit 1
+fi
+
+# 발견된 스크립트를 texlua로 실행
+texlua "$LUA_SCRIPT" "$1"
